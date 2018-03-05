@@ -7,9 +7,8 @@ import "./Random.sol";
  * @dev The Rouleth contract allows 6 players to play Russian Roulette.
  */
 contract Rouleth is Random {
-    uint maxPlayers = 2;
-    address[2] players;
-
+    uint maxPlayers = 6;
+    address[6] players;
     uint8 nPlayers = 0;
     uint entryFee = 0.01 ether;
     uint afterHouseFee = 95;
@@ -50,7 +49,11 @@ contract Rouleth is Random {
         owner.transfer(this.balance);
     }
 
-    function getCurrentPlayers() external view returns(address[2]) {
+    function getCurrentPlayers() external view returns(address[6]) {
         return players;
+    }
+
+    function getNumberOfPlayers() external view returns(uint8) {
+        return nPlayers;
     }
 }
