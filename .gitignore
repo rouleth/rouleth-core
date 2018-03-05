@@ -1,5 +1,10 @@
+# editors
 .idea/
-node_modules/
 *.iml
 
+# truffle
+node_modules/
+build/
+
+# rouleth
 secret.js
