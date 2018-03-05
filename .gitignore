@@ -1,4 +1,5 @@
 .idea/
-cryptozombies-master/
-
+node_modules/
 *.iml
+
+secret.js

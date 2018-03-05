@@ -1,14 +1,17 @@
-pragma solidity ^0.4.20;
+pragma solidity ^0.4.19;
 
-import "./ownable.sol";
+import "./Random.sol";
 
-contract Roulette is Ownable {
+/**
+ * @title Rouleth
+ * @dev The Rouleth contract allows 6 players to play Russian Roulette.
+ */
+contract Rouleth is Random {
     uint maxPlayers = 2;
     address[2] players;
 
     uint8 nPlayers = 0;
     uint entryFee = 0.01 ether;
-    uint randNonce = 0;
     uint afterHouseFee = 95;
 
     event NewPlayer(address player);
@@ -25,19 +28,13 @@ contract Roulette is Ownable {
     }
 
     function _spinRevolver() private {
-        uint loser = _getRandom();
+        uint loser = _getRandom(maxPlayers);
         uint prize = _getPrize();
         for (uint i = 0; i < maxPlayers; i++) {
             if (i != loser) {
                 players[i].transfer(prize);
             }
         }
-    }
-
-    // TODO Improve this function
-    function _getRandom() private returns(uint) {
-        randNonce++;
-        return uint(keccak256(now, msg.sender, randNonce)) % maxPlayers;
     }
 
     function _getPrize() private view returns (uint) {
