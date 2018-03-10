@@ -7,8 +7,8 @@ import "./Random.sol";
  * @dev The Rouleth contract allows 6 players to play Russian Roulette.
  */
 contract Rouleth is Random {
-    uint public maxPlayers = 6;
-    address[6] players;
+    uint constant public maxPlayers = 3;
+    address[maxPlayers] players;
     uint8 public nPlayers = 0;
     uint public entryFee = 0.01 ether;
     uint public afterHouseFee = 95;
@@ -16,7 +16,11 @@ contract Rouleth is Random {
     address[] deadPlayers;
 
     event NewPlayer(address player);
-    event GameFinished(address[6] players, uint loser);
+    event NewPlayerAndGameFinished(
+        address sender,
+        address[maxPlayers] players,
+        uint loser
+    );
 
     modifier playOnlyOnce() {
       /*  for (uint i = 0; i < maxPlayers; i++) {
@@ -32,7 +36,7 @@ contract Rouleth is Random {
         _;
     }
 
-    function getPlayers() external view returns(address[6]) {
+    function getPlayers() external view returns(address[maxPlayers]) {
         return players;
     }
 
@@ -44,11 +48,12 @@ contract Rouleth is Random {
         require(msg.value >= entryFee);
         players[nPlayers] = msg.sender;
         nPlayers++;
-        NewPlayer(msg.sender);
         if (nPlayers == maxPlayers) {
             uint _loser = _spinRevolver();
-            GameFinished(players, _loser);
+            NewPlayerAndGameFinished(msg.sender, players, _loser);
             _resetRevolver();
+        } else {
+            NewPlayer(msg.sender);
         }
     }
 
