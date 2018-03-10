@@ -5,6 +5,7 @@
 # truffle
 node_modules/
 build/
+npm-debug.log
 
 # rouleth
 secret.js

@@ -12,9 +12,11 @@ module.exports = {
             gasPrice: 20000000000 // 20 gwei
         },
         development: {
-            host: "localhost",
-            port: 8545,
-            network_id: "*" // Match any network id
+            host: "192.168.0.103",
+            port: "7545",
+            network_id: "5777", // Match any network id
+            gas: 4000000,
+            gasPrice: 20000000000 // 20 gwei
         }
     }
 };
